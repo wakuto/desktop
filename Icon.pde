@@ -28,8 +28,6 @@ class Icon extends IconStatic {
     count++;
     icons.add(this);
     Draw();
-    
-    
   }
   
   public void Draws() {
