@@ -16,11 +16,18 @@ void draw() {
   
 }
 void mouseDragged() {
-  Window.window.get(0).Move();
   
+  Window.window.get(0).Move();
 }
-void mouseClicked() {
+
+void mousePressed() {
+  Window.window.get(0).SetState(true);
+  println("hello");
   Mouse.firstMousePos(mouseX, mouseY);
+}
+
+void mouseReleased() {
+  Window.window.get(0).SetState(false);
 }
 
 void taskbar(float y, color col) {

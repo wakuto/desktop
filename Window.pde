@@ -1,6 +1,6 @@
 static abstract class WindowStatic {
   static int count;
-
+  static boolean state = false;
   static ArrayList<Window> window = new ArrayList<Window>();
 
   public static void Draw() {
@@ -8,6 +8,7 @@ static abstract class WindowStatic {
       win.Draws();
     }
   }
+  
 }
 
 class Window extends WindowStatic {
@@ -18,6 +19,10 @@ class Window extends WindowStatic {
   int sizeY = 600;
   int barY = 40;
   int buttonX = 70;
+  int disX = 0;
+  int disY = 0;
+  
+  boolean isfirst = true;
 
   String name;
   public Window(Icon icn) {
@@ -34,13 +39,28 @@ class Window extends WindowStatic {
   }
   public void Move() {
     // mouse is in titlebar
-    if (posX <= mouseX && mouseX <= (posX + sizeX) && posY >= mouseY && mouseY >= (posY - barY)) {
-      //fill(#000000);
-      //text(mouseX-Mouse.prevMouseX + " , " + (mouseY-Mouse.prevMouseY), 200, 100);
+    //if (posX <= mouseX && mouseX <= (posX + sizeX) && posY >= mouseY && mouseY >= (posY - barY)) {
+    if(isfirst) {
+      disX = mouseX - Mouse.clickMousePosX;
+      disY = mouseY - Mouse.clickMousePosY;
+      isfirst = false;
+    }
+    
+    if(state) {
       int disx = mouseX - Mouse.prevMouseX;
       int disy = mouseY - Mouse.prevMouseY;
       posX += disx;
       posY += disy;
+      posX = mouseX + disX;
+      posY = mouseY + disY;
+    }
+  }
+  public void SetState(boolean st) {
+    if(posX <= mouseX && mouseX <= (posX + sizeX) && posY >= mouseY && mouseY >= (posY - barY)) {
+      state = st;
+      if(!st) {
+        isfirst = true;
+      }
     }
   }
 }
