@@ -49,4 +49,8 @@ class Icon extends IconStatic {
   public String getName() {
     return this.name;
   }
+  
+  public void clicked() {
+  }
+    
 }

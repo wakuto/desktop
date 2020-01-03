@@ -2,7 +2,11 @@ PImage background;
 
 void setup() {
   size(displayWidth, displayHeight);
-  background = loadImage("background.png");
+  if(displayWidth == 1920) {
+    background = loadImage("FHD.png");
+  } else {
+    background = loadImage("background.png");
+  }
   Icon icn = new Icon("test", "icon1.png");
   Window win = new Window(icn);
 }
@@ -13,10 +17,9 @@ void draw() {
   Icon.Draw();
   Window.Draw();
   taskbar(75, #FFFFFF);
-  
 }
+
 void mouseDragged() {
-  
   Window.window.get(0).Move();
 }
 
