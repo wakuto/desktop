@@ -1,7 +1,7 @@
 PImage background;
 
 void setup() {
-  size(displayWidth, displayHeight);
+  fullScreen();
   if(displayWidth == 1920) {
     background = loadImage("FHD.png");
   } else {
@@ -25,7 +25,7 @@ void mouseDragged() {
 
 void mousePressed() {
   Window.window.get(0).SetState(true);
-  println("hello");
+  Window.window.get(0).click();
   Mouse.firstMousePos(mouseX, mouseY);
 }
 

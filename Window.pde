@@ -21,32 +21,39 @@ class Window extends WindowStatic {
   int disX = 0;
   int disY = 0;
   
+  
   boolean isfirst = true;
+  boolean visible = false;
 
   String name;
   public Window(Icon icn) {
     name = icn.name;
     window.add(this);
+    visible = true;
   }
 
   private void Draws() {
-    rect(posX, posY, sizeX, sizeY);
-    fill(#F0F0F0);
-    rect(posX, posY - barY, sizeX, barY);
-    fill(#FF0000);
-    rect(posX + sizeX - buttonX, posY - barY, buttonX, barY);
+    if(visible) {
+      rect(posX, posY, sizeX, sizeY);
+      fill(#F0F0F0);
+      rect(posX, posY - barY, sizeX, barY);
+      fill(#FF0000);
+      rect(posX + sizeX - buttonX, posY - barY, buttonX, barY);
+    }
   }
   
   public void Move() {
-    if(isfirst && state) {
-      disX = posX - Mouse.clickMousePosX;
-      disY = posY - Mouse.clickMousePosY;
-      isfirst = false;
-    }
-    
-    if(state) {
-      posX = mouseX + disX;
-      posY = mouseY + disY;
+    if(visible) {
+      if(isfirst && state) {
+        disX = posX - Mouse.clickMousePosX;
+        disY = posY - Mouse.clickMousePosY;
+        isfirst = false;
+      }
+      
+      if(state) {
+        posX = mouseX + disX;
+        posY = mouseY + disY;
+      }
     }
   }
   
@@ -57,5 +64,16 @@ class Window extends WindowStatic {
         isfirst = true;
       }
     }
+  }
+  
+  public void click() {
+    if((posX + sizeX - buttonX) <= mouseX && mouseX <= (posX + sizeX) && posY >= mouseY && mouseY >= (posY - barY)) {
+      Close();
+    }
+  }
+  
+  public void Close() {
+    visible = false;
+    println("close");
   }
 }
