@@ -8,7 +8,7 @@ void setup() {
     background = loadImage("background.png");
   }
   Icon icn = new Icon("test", "icon1.png");
-  Window win = new Window(icn);
+  Window win = new Window(icn,600,400);
 }
 
 void draw() {
@@ -16,21 +16,21 @@ void draw() {
   image(background, 0, 0);
   Icon.Draw();
   Window.Draw();
-  taskbar(75, #FFFFFF);
+  taskbar(displayHeight / 20, #FFFFFF);
 }
 
 void mouseDragged() {
-  Window.window.get(0).Move();
+  Window.window[0].Move();
 }
 
 void mousePressed() {
-  Window.window.get(0).SetState(true);
-  Window.window.get(0).click();
+  Window.window[0].SetState(true);
+  Window.window[0].click();
   Mouse.firstMousePos(mouseX, mouseY);
 }
 
 void mouseReleased() {
-  Window.window.get(0).SetState(false);
+  Window.window[0].SetState(false);
 }
 
 void taskbar(float y, color col) {
