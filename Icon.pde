@@ -1,9 +1,10 @@
 static abstract class IconStatic {
   static int count;
   static ArrayList<Icon> icons = new ArrayList<Icon>();
-  public static void Draw() {
+  // draws all icons
+  public static void drawIcons() {
     for(Icon icon : icons) {
-      icon.Draws();
+      icon.drawIcon();
     }
   }
 }
@@ -27,10 +28,10 @@ class Icon extends IconStatic {
     index = count;
     count++;
     icons.add(this);
-    Draw();
+    drawIcon();
   }
   
-  public void Draws() {
+  public void drawIcon() {
     this.x = this.icon.width * dispScale;
     this.y = this.icon.height * dispScale;
     float interval = this.x - textWidth(this.name);

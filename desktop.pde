@@ -1,40 +1,42 @@
 PImage background;
 
 void setup() {
+  // display setting
   fullScreen();
   if(displayWidth == 1920) {
     background = loadImage("FHD.png");
   } else {
     background = loadImage("background.png");
   }
+  
+  // initialize
   Icon icn = new Icon("test", "icon1.png");
   Window win = new Window(icn,600,400);
+  Window win2 = new Window(icn, 400, 600);
+  TaskbarSetting taskbar = new TaskbarSetting(displayHeight / 20, #FFFFFF);
 }
 
 void draw() {
   Mouse.setMouse(mouseX, mouseY);
+  
   image(background, 0, 0);
-  Icon.Draw();
-  Window.Draw();
-  taskbar(displayHeight / 20, #FFFFFF);
+  
+  Icon.drawIcons();
+  Window.drawWindows();
+  Taskbar.drawTaskbar();
+  Window.closeWindows();
 }
 
 void mouseDragged() {
-  Window.window[0].Move();
+  Window.moveWindow();
 }
 
 void mousePressed() {
-  Window.window[0].SetState(true);
-  Window.window[0].click();
+  Window.setMoveStates(true);
+  Window.clickCloseButtons();
   Mouse.firstMousePos(mouseX, mouseY);
 }
 
 void mouseReleased() {
-  Window.window[0].SetState(false);
-}
-
-void taskbar(float y, color col) {
-  noStroke();
-  fill(col);
-  rect(0, displayHeight - y, displayWidth, y); 
+  Window.setMoveStates(false);
 }
