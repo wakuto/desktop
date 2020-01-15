@@ -43,6 +43,7 @@ static abstract class WindowStatic {
   public static void closeWindows() {
     ArrayList<Integer> closeList = new ArrayList<Integer>();
     for(int i : index) {
+      println("access:" + i);
       if(window[i].close) {
         //window[i].closeWindow();
         closeList.add(i);
@@ -50,6 +51,15 @@ static abstract class WindowStatic {
     }
     for(int i : closeList) {
       window[i].closeWindow();
+      println("close:" + i);
+      java.util.Iterator<Integer> it = index.iterator();
+      while(it.hasNext()) {
+        int ind = it.next();
+        if(ind == i) {
+          it.remove();
+          break;
+        }
+      }
       window[i] = null;
     }
   }
@@ -176,14 +186,7 @@ class Window extends WindowStatic {
       close = false;
       visible = false;
       //window[pid] = null;
-      java.util.Iterator<Integer> it = index.iterator();
-      while(it.hasNext()) {
-        int ind = it.next();
-        if(ind == pid) {
-          it.remove();
-          break;
-        }
-      }
+      
       println("closed");
     }
   }
