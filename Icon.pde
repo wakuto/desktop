@@ -1,10 +1,20 @@
+import java.lang.reflect.Method; //<>//
+import java.lang.reflect.Constructor;
+
 static abstract class IconStatic {
   static int count;
   static ArrayList<Icon> icons = new ArrayList<Icon>();
+  static desktop parent = new desktop();
   // draws all icons
   public static void drawIcons() {
-    for(Icon icon : icons) {
+    for (Icon icon : icons) {
       icon.drawIcon();
+    }
+  }
+
+  public static void clickCheck(int x, int y) {
+    for (Icon icon : icons) {
+      icon.checkIcon(x, y);
     }
   }
 }
@@ -16,10 +26,14 @@ class Icon extends IconStatic {
   final float dispScale = 0.5f;
   final String defaultIcon = "icon1.png";
   final int fontSize = 20;
-  float x, y;
+  int sizeX, sizeY;
+  int posX, posY;
+
   int index;
-  
-  public Icon(String name, String icon) {
+  Class clazz;
+
+  public Icon(String name, String icon, Class clazz) {
+    this.clazz = clazz;
     this.icon = loadImage(icon);
     if (this.icon == null) {
       this.icon = loadImage(defaultIcon);
@@ -28,30 +42,46 @@ class Icon extends IconStatic {
     index = count;
     count++;
     icons.add(this);
+    this.sizeX = (int)(this.icon.width * dispScale);
+    this.sizeY = (int)(this.icon.height * dispScale);
     drawIcon();
   }
-  
-  public void drawIcon() {
-    this.x = this.icon.width * dispScale;
-    this.y = this.icon.height * dispScale;
-    float interval = this.x - textWidth(this.name);
-    image(this.icon, intervalX, intervalY + index * (this.y + fontSize + intervalY), this.x, this.y);
+
+  protected void drawIcon() {
+    float interval = this.sizeX - textWidth(this.name);
+    posX = intervalX;
+    posY = intervalY + index * (this.sizeY + fontSize + intervalY);
+    image(this.icon, posX, posY, this.sizeX, this.sizeY);
     textSize(fontSize);
+    fill(#FFFFFF);
     if (interval >= 0) {
-      text(this.name, intervalX + interval/2, intervalY + this.y + fontSize + index * (this.y + fontSize + intervalY));
+      text(this.name, intervalX + interval/2, intervalY + this.sizeY + fontSize + index * (this.sizeY + fontSize + intervalY));
     } else {
       int word = 0;
-      while(this.x >= textWidth(this.name.substring(0, ++word)));
+      while (this.sizeX >= textWidth(this.name.substring(0, ++word)));
       word--;
-      text(this.name.substring(0, word), intervalX, intervalY + this.y + fontSize + index * (this.y + fontSize + intervalY));
+      text(this.name.substring(0, word), intervalX, intervalY + this.sizeY + fontSize + index * (this.sizeY + fontSize + intervalY));
     }
   }
-  
+
   public String getName() {
     return this.name;
   }
-  
-  public void clicked() {
+
+  protected void checkIcon(int x, int y) {
+    //println(this.sizeX + " " + this.sizeY);
+    //println(x + " " + y);
+    if (this.posX <= x && x <= this.sizeX + this.posX && this.posY <= y && y <= this.sizeY + this.posY) {
+      launchApp();
+    }
   }
-    
+
+  private void launchApp() {
+    switch(clazz.getName()) {
+      case "desktop$Calc": {
+        Calc cal = new Calc(this);
+        break;
+      }
+    }    
+  }
 }

@@ -1,30 +1,27 @@
-static abstract class WindowStatic {
-  static int count;
-  static int currentPid = 0;
-  static Window[] window = new Window[1000];
+static class WindowStatic {
+  static int barY = 40;   // title bar height
+  static int buttonX = 70;// close button position(posX + x)
+  static Window[] window = Process.window;
   
   // sort in display order
   static ArrayList<Integer> index = new ArrayList<Integer>();
 
   public static void drawWindows() {
-    //reverse(window);
     for (int i = window.length - 1; i >= 0; i--) {
       if(window[i] != null) {
         window[i].drawWindow();
       }
     }
   }
-  /*
-  public static int ChechClickedTitlebar() {
-    for (Window win : window) {
-      if(win != null) {
-        int id = win.checkClick();
-        if(id != -1) return id;
+  
+  public static void clickCheck(int x, int y) {
+    for(int i = 0; i < window.length; i++) {
+      if(window[i] != null && Tools.isInArea(x, y, window[i].posX, window[i].posY + barY, window[i].sizeX + window[i].posX, window[i].sizeY + window[i].posY)) {
+        Process.process[i].click(x - window[i].posX, y - window[i].posY);
       }
     }
-    return -1;
-  }*/
-  
+  }
+
   public static void setMoveStates(boolean st) {
     for(int i : index) {
       window[i].setMoveState(st);
@@ -43,15 +40,12 @@ static abstract class WindowStatic {
   public static void closeWindows() {
     ArrayList<Integer> closeList = new ArrayList<Integer>();
     for(int i : index) {
-      println("access:" + i);
       if(window[i].close) {
-        //window[i].closeWindow();
         closeList.add(i);
       }
     }
     for(int i : closeList) {
       window[i].closeWindow();
-      println("close:" + i);
       java.util.Iterator<Integer> it = index.iterator();
       while(it.hasNext()) {
         int ind = it.next();
@@ -70,8 +64,7 @@ class Window extends WindowStatic {
   int posY = 0;  // window position(y)
   int sizeX = 400; // windows size(x)
   int sizeY = 600; // window size(y)
-  int barY = 40;   // title bar height
-  int buttonX = 70;// close button position(posX + x)
+
   int disX = 0;    // mousePosition(when mouse clicked) - posX
   int disY = 0;    // posY - mousePosition(when mouse clicked)
   int pid;         // process id
@@ -85,10 +78,10 @@ class Window extends WindowStatic {
 
   public Window(Icon icn) {
     name = icn.name;
-    window[currentPid] = this;
-    pid = currentPid;
+    window[Process.currentPid] = this;
+    pid = Process.currentPid;
     index.add(pid);
-    currentPid++;
+    Process.currentPid++;
     visible = true;
   }
   
@@ -104,10 +97,10 @@ class Window extends WindowStatic {
     this.posY = posY;
   }
 
-  private void drawWindow() {
+  protected void drawWindow() {
     if(visible) {
       if(index.get(0) == pid) {
-        fill(#FFFFFF);
+        fill(color(#FFFFFF));
         rect(posX, posY, sizeX, sizeY);
         fill(#F0F0F0);
         rect(posX, posY, sizeX, barY);
@@ -116,6 +109,8 @@ class Window extends WindowStatic {
         textSize(28);
         fill(0,0,0);
         text(name, posX + barY, posY + barY - 10);
+        Process.process[pid].draws();
+          
       } else {
         fill(#DDDDDD);
         rect(posX, posY, sizeX, sizeY);
@@ -126,11 +121,12 @@ class Window extends WindowStatic {
         textSize(28);
         fill(0,0,0);
         text(name, posX + barY, posY + barY - 10);
+        Process.process[pid].draws();
       }
     }
   }
   
-  public void move() {
+  protected void move() {
     if(visible && state) {
       if(isfirst) {
         Window tmp = window[pid];
@@ -159,9 +155,9 @@ class Window extends WindowStatic {
     }
   }
   
-  public void setMoveState(boolean st) {
+  protected void setMoveState(boolean st) {
     // if mouse on the titlebar
-    if(posX <= mouseX && mouseX <= (posX + sizeX) && posY + barY >= mouseY && mouseY >= posY) {
+    if(Tools.isInArea(mouseX, mouseY, posX, posY, posX+sizeX, posY+barY)) {
       state = st;
       if(!st) {
         isfirst = true;
@@ -169,24 +165,17 @@ class Window extends WindowStatic {
     }
   }
   
-  public void clickCloseButton() {
+  protected void clickCloseButton() {
     // if mouse on the close button
-    if((posX + sizeX - buttonX) <= mouseX && mouseX <= (posX + sizeX) && posY + barY >= mouseY && mouseY >= posY && index.get(0) == pid) {
-      //closeWindow();
+    if(Tools.isInArea(mouseX, mouseY, posX+sizeX-buttonX, posY, posX+sizeX, posY+barY)) {
       close = true;
     }
   }
-  /*
-  public int checkClick() {
-    return -1;
-  }*/
   
-  public void closeWindow() {
+  protected void closeWindow() {
     if(close) {
       close = false;
       visible = false;
-      //window[pid] = null;
-      
       println("closed");
     }
   }

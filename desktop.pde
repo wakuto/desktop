@@ -1,26 +1,26 @@
+//import java.lang.reflect.*;
+
 PImage background;
+PApplet parent = this;
 
 void setup() {
+  //Tools.app = parent;
   // display setting
   fullScreen();
-  if(displayWidth == 1920) {
+  if(displayWidth%16 == 0) {
     background = loadImage("FHD.png");
   } else {
     background = loadImage("background.png");
   }
-  
   // initialize
-  Icon icn = new Icon("test", "icon1.png");
-  Window win = new Window(icn,600,400);
-  Window win2 = new Window(icn, 400, 600);
+  Icon calc = new Icon("Calc", "calc.png", Calc.class);
   TaskbarSetting taskbar = new TaskbarSetting(displayHeight / 20, #FFFFFF);
 }
 
 void draw() {
   Mouse.setMouse(mouseX, mouseY);
   
-  image(background, 0, 0);
-  
+  image(background, 0, 0, displayWidth, displayHeight);
   Icon.drawIcons();
   Window.drawWindows();
   Taskbar.drawTaskbar();
@@ -39,4 +39,11 @@ void mousePressed() {
 
 void mouseReleased() {
   Window.setMoveStates(false);
+}
+
+void mouseClicked(MouseEvent me) {
+  if(me.getCount() == 2) {
+    Icon.clickCheck(mouseX, mouseY);
+  }
+  Window.clickCheck(mouseX, mouseY);
 }
