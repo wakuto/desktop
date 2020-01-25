@@ -74,10 +74,13 @@ class Window extends WindowStatic {
   boolean state = false;
   boolean isfirst = true;
   boolean visible = false;  // if you want to close this window, put true into this varible
+  
+  PImage icon;
 
 
   public Window(Icon icn) {
     name = icn.name;
+    icon = icn.icon;
     window[Process.currentPid] = this;
     pid = Process.currentPid;
     index.add(pid);
@@ -98,14 +101,21 @@ class Window extends WindowStatic {
   }
 
   protected void drawWindow() {
+    float len = 2.3;
     if(visible) {
       if(index.get(0) == pid) {
-        fill(color(#FFFFFF));
+        fill(#FFFFFF);
         rect(posX, posY, sizeX, sizeY);
         fill(#F0F0F0);
         rect(posX, posY, sizeX, barY);
         fill(#FF0000);
         rect(posX + sizeX - buttonX, posY, buttonX, barY);
+        stroke(#000000);
+        strokeWeight(2);
+        line(posX + sizeX - buttonX + buttonX / len, posY + barY / len - len, posX + sizeX - buttonX / len, posY + barY - barY / len + len);
+        line(posX + sizeX - buttonX + buttonX / len, posY + barY - barY / len + len, posX + sizeX - buttonX / len, posY + barY / len - len);
+        noStroke();
+        image(icon, posX + 1, posY + 1, barY - 2, barY - 2);
         textSize(28);
         fill(0,0,0);
         text(name, posX + barY, posY + barY - 10);
@@ -118,6 +128,12 @@ class Window extends WindowStatic {
         rect(posX, posY, sizeX, barY);
         fill(#FF0000);
         rect(posX + sizeX - buttonX, posY, buttonX, barY);
+        stroke(#000000);
+        strokeWeight(2);
+        line(posX + sizeX - buttonX + buttonX / len, posY + barY / len - len, posX + sizeX - buttonX / len, posY + barY - barY / len + len);
+        line(posX + sizeX - buttonX + buttonX / len, posY + barY - barY / len + len, posX + sizeX - buttonX / len, posY + barY / len - len);
+        noStroke();
+        image(icon, posX + 1, posY + 1, barY - 2, barY - 2);
         textSize(28);
         fill(0,0,0);
         text(name, posX + barY, posY + barY - 10);

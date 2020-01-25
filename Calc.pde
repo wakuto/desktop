@@ -122,7 +122,7 @@ public class Calc extends CalcSub {
     for(int i = 1; i <= 5; i++) {
       float signSize = buttonSize * 4 + space * 5;
       signSize /= 6.5;
-      up.set(space * 4 + buttonSize * 3, space * 3 + buttonSize * 2 + signSize * (i-1) + space * (i));
+      up.set(space * 4 + buttonSize * 3, space * 3 + buttonSize * 2 + signSize * (i-1) + space * i);
       low.set(buttonSize + up.x, buttonSize + up.y);
       if(Tools.isInArea(mouse, up, low)) {
         switch(i) {

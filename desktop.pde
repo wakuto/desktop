@@ -1,6 +1,7 @@
 //import java.lang.reflect.*;
 
 PImage background;
+PImage mouseCursor;
 PApplet parent = this;
 
 void setup() {
@@ -12,6 +13,7 @@ void setup() {
   } else {
     background = loadImage("background.png");
   }
+  mouseCursor = loadImage("mouseCursor.png");
   // initialize
   Icon calc = new Icon("Calc", "calc.png", Calc.class);
   TaskbarSetting taskbar = new TaskbarSetting(displayHeight / 20, #FFFFFF);
@@ -25,6 +27,7 @@ void draw() {
   Window.drawWindows();
   Taskbar.drawTaskbar();
   Window.closeWindows();
+  cursor(mouseCursor);
 }
 
 void mouseDragged() {
@@ -46,4 +49,5 @@ void mouseClicked(MouseEvent me) {
     Icon.clickCheck(mouseX, mouseY);
   }
   Window.clickCheck(mouseX, mouseY);
+  Taskbar.click(mouseX, mouseY);
 }
