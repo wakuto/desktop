@@ -97,6 +97,8 @@ public class WindowAPI {
     init();
     x += upX;
     y += upY;
-    parent.text(str, x, y, sizeX, sizeY);
+    if(str != null && str != "") {
+      parent.text(str, x, y, sizeX, sizeY);
+    }
   }
 }
