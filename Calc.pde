@@ -3,11 +3,9 @@ public abstract class CalcSub extends Application {
   
 }
 public class Calc extends CalcSub {
-  int space = 10;
-  int buttonSize = 50;
+  final int space = 10;
+  final int buttonSize = 50;
   String text = "";
-  int res = 0;
-  int resTmp = 0;
   Point mouse = new Point();
   WindowAPI win;
   public Calc(Icon ico) {
@@ -18,7 +16,7 @@ public class Calc extends CalcSub {
   void drawButton() {
     for(int i = 3; i <= 6; i++) {
       for(int j = 1; j <= 3; j++) {
-        fill(#FFFFFF);
+        fill(#F0F0F0);
         win.rect(space * j + buttonSize * (j-1), space * i + buttonSize * (i-1), buttonSize, buttonSize);
         textSize(32);
         fill(#000000);
@@ -47,7 +45,7 @@ public class Calc extends CalcSub {
    
     for(int i = 1; i <= 5; i++) {
       String text = "";
-      fill(#FFFFFF);
+      fill(#F0F0F0);
       float signSize = buttonSize * 4 + space * 5;
       signSize /= 6.5;
       
@@ -93,7 +91,7 @@ public class Calc extends CalcSub {
     Point low = new Point();
     for(int i = 3; i <= 6; i++) {
       for(int j = 1; j <= 3; j++) {
-        up.set(space * j + buttonSize * (j-1), space * i + buttonSize * i);
+        up.set(space * j + buttonSize * (j-1), Window.barY + space * i + buttonSize * (i-1));
         low.set(buttonSize + up.x, buttonSize + up.y);
         
         if(Tools.isInArea(mouse, up, low)) {
@@ -122,8 +120,8 @@ public class Calc extends CalcSub {
     for(int i = 1; i <= 5; i++) {
       float signSize = buttonSize * 4 + space * 5;
       signSize /= 6.5;
-      up.set(space * 4 + buttonSize * 3, space * 3 + buttonSize * 2 + signSize * (i-1) + space * i);
-      low.set(buttonSize + up.x, buttonSize + up.y);
+      up.set(space * 4 + buttonSize * 3, Window.barY + space * 3 + buttonSize * 2 + signSize * (i-1) + space * (i-1));
+      low.set(buttonSize + up.x, signSize + up.y);
       if(Tools.isInArea(mouse, up, low)) {
         switch(i) {
           case 1: {

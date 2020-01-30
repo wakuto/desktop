@@ -1,5 +1,6 @@
 public class Point {
   float x, y;
+  
   public Point(float x, float y) {
     this.x = x;
     this.y = y;
@@ -17,5 +18,10 @@ public class Point {
   public void set(float x, float y) {
     this.x = x;
     this.y = y;
+  }
+  
+  public void sub(Point po) {
+    this.x -= po.x;
+    this.y -= po.y;
   }
 }

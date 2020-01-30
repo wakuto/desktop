@@ -23,6 +23,11 @@ public class TaskbarSetting extends Taskbar{
     noStroke();
     fill(col);
     rect(pos.x, pos.y, displayWidth, y); 
+    fill(#000000);
+    int fontsize = 20;
+    textSize(fontsize);
+    String time = ((Integer)hour()).toString() + ":" + ((Integer)minute()).toString() + "  ";
+    text(time, displayWidth - textWidth(time), displayHeight - fontsize);
     image(power, pos.x, pos.y, y, y);
   }
 }

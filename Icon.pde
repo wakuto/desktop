@@ -69,9 +69,7 @@ class Icon extends IconStatic {
   }
 
   protected void checkIcon(int x, int y) {
-    //println(this.sizeX + " " + this.sizeY);
-    //println(x + " " + y);
-    if (this.posX <= x && x <= this.sizeX + this.posX && this.posY <= y && y <= this.sizeY + this.posY) {
+    if(Tools.isInArea(x, y, this.posX, this.posY, this.posX + this.sizeX, this.posY + this.sizeY)) {
       launchApp();
     }
   }
